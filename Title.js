@@ -8,6 +8,11 @@ class Title extends Phaser.Scene {
             frameWidth: 20,
             frameHeight: 18
         });
+
+        this.load.spritesheet("stick", "assets/stick.png", {
+            frameWidth: 30, 
+            frameHeight: 30
+        });
     }
 
     create() {
