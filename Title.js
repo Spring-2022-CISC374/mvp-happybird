@@ -9,10 +9,10 @@ class Title extends Phaser.Scene {
             frameHeight: 18
         });
 
-        this.load.spritesheet("stick", "assets/stick.png", {
-            frameWidth: 30, 
-            frameHeight: 30
-        });
+       this.load.image("stick", "assets/stick.png", {
+       frameWidth: 20, 
+       frameWidth: 18
+       });
     }
 
     create() {

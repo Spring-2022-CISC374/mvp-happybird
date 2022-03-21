@@ -9,6 +9,9 @@ class Field extends Phaser.Scene {
         this.redbird.setCollideWorldBounds(true);
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        this.stick = this.add.sprite(config.width/2, config.height/2, "stick");
+        this.stick.setScale(0.1, 0.1);
     }
 
     update() {
