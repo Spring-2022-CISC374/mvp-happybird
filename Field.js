@@ -7,6 +7,7 @@ class Field extends Phaser.Scene {
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
+        this.redbird.setScale(2, 2);
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
