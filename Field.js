@@ -7,12 +7,15 @@ class Field extends Phaser.Scene {
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
+        this.redbird.setScale(2, 2);
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         //set array of food items to spawn
         this.foodItems = this.physics.add.sprite(config.width/3, config.height/3, "redBerry");
         this.foodItems.setCollideWorldBounds(true);
+        this.stick = this.add.sprite(config.width/2, config.height/2, "stick");
+        this.stick.setScale(0.1, 0.1);
     }
 
     update() {
