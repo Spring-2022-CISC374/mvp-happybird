@@ -9,6 +9,10 @@ class Field extends Phaser.Scene {
         this.redbird.setCollideWorldBounds(true);
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
+
+        //set array of food items to spawn
+        this.foodItems = this.physics.add.sprite(config.width/3, config.height/3, "redBerry");
+        this.foodItems.setCollideWorldBounds(true);
     }
 
     update() {

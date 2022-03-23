@@ -8,6 +8,11 @@ class Title extends Phaser.Scene {
             frameWidth: 20,
             frameHeight: 18
         });
+
+        this.load.spritesheet("redBerry","assets/spritesheets/redBerry.png", {
+            frameWidth: 20,
+            frameHeight: 20
+        })
     }
 
     create() {
