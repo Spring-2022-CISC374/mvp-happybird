@@ -34,12 +34,12 @@ module.exports = {
     }
   },
   plugins: [
-      new HtmlWebpackPlugin({ gameName: package.game.name, template: 'index.html', inject: false }),
+      new HtmlWebpackPlugin({ gameName: package.game.name, template: 'src/index.html', inject: false }),
     new CopyWebpackPlugin([
-	{ from: './assets', to: 'assets' },
+	{ from: 'assets', to: 'assets' },
 	{ from: 'config/pwa', to: '' },
 	{ from: 'assets/icons/favicon.ico', to: '' },
-	{ from: '*.js', to: './src'}	
+	{ from: '*.js', to: 'src/*js'}	
     ]),
     new InjectManifest({
       swSrc: path.resolve(__dirname, 'pwa/sw.js')

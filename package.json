@@ -1,21 +1,21 @@
 {
-  "name": "happybird",
+  "name": "educational-phaser-game-template",
   "version": "0.0.2",
-  "description": "A game about nursing a bird back to health.",
-  "homepage": "https://github.com/Spring-2022-CISC374/mvp-happybird#readme",
+  "description": "Phaser 3 starter template for educational games, using TypeScript, webpack, and Github Pages.",
+  "homepage": "https://github.com/acbart/educational-phaser-game-template#readme",
   "main": "index.js",
   "game": {
-    "url": "mvp-happybird",
-    "shortName": "HappyBird",
-    "name": "Happy Bird"
+    "url": "github-hosting-directions",
+    "shortName": "EdGame",
+    "name": "Educational Phaser Game"
   },
   "author": {
-    "name": "Riyara Master, Kevin Peachman, Ava Stratton, Matt Donovan",
-    "url": "https://github.com/rmmaster, https://github.com/kpeachman, https://github.com/avastratt, https://github.com/udelmdonovan"
+    "name": "Austin Cory Bart",
+    "url": "https://github.com/acbart"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Spring-2022-CISC374/mvp-happybird"
+    "url": "https://github.com/Spring-2021-CISC374/github-hosting-directions.git"
   },
   "scripts": {
     "start": "webpack-dev-server --config config/webpack.dev.js",
