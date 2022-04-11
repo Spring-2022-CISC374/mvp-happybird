@@ -1,3 +1,5 @@
+
+
 class Field extends Phaser.Scene {
     constructor() {
         super("playGame");
@@ -12,6 +14,7 @@ class Field extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         //set array of food items to spawn
+        this.spawnBlueberries();
     }
 
     update() {
@@ -38,5 +41,16 @@ class Field extends Phaser.Scene {
         }else {
             this.redbird.setVelocityY(0);
         }
+    }
+
+    spawnBlueberries(){
+        this.Blueberries = this.add.group({
+            key: 'blueberry',
+            repeat: 9
+        });
+        this.Blueberries.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
     }
 }
