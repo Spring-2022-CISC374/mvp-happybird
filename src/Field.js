@@ -7,18 +7,27 @@ class Field extends Phaser.Scene {
 
     create() {
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
+        this.add.text(20, 40, "Press space to interact with objects.");
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
         this.redbird.setScale(2, 2);
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         //set array of food items to spawn
+        this.Blueberries = this.add.group({
+            key: 'blueberry',
+            repeat: 9
+        });
+
         this.spawnBlueberries();
     }
 
     update() {
         this.moveBird();
+        this.interact();
+
     }
 
     moveBird() {
@@ -44,13 +53,23 @@ class Field extends Phaser.Scene {
     }
 
     spawnBlueberries(){
-        this.Blueberries = this.add.group({
-            key: 'blueberry',
-            repeat: 9
-        });
+
         this.Blueberries.children.iterate(function (child){
             child.setX(Math.random()*(config.width-32)+32);
             child.setY(Math.random()*(config.height-32)+32);
         });
     }
+
+    interact(){
+        var bird = this.redbird;
+        if(this.spaceBar.isDown) {
+            this.Blueberries.children.iterate(function (child){
+                if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
+                    child.angle += 90;
+                }
+            });
+        }
+    }
+
 }
