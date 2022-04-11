@@ -8,6 +8,8 @@ class Field extends Phaser.Scene {
     create() {
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
         this.add.text(20, 40, "Press space to interact with objects.");
+        this.health = 1;
+        this.healthAmount = this.add.text(config.width-250, 5, "Health: " + this.health + " / 100");
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
         this.redbird.setScale(2, 2);
@@ -22,6 +24,7 @@ class Field extends Phaser.Scene {
         });
 
         this.spawnBlueberries();
+        this.hpBar = this.makeHealthBar();
     }
 
     update() {
@@ -62,14 +65,32 @@ class Field extends Phaser.Scene {
 
     interact(){
         var bird = this.redbird;
+        var hp = this.health;
         if(this.spaceBar.isDown) {
             this.Blueberries.children.iterate(function (child){
                 if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
                     child.angle += 90;
+                    hp += 2;
                 }
             });
         }
+        this.health = hp;
+        this.updateHealth(hp);
+    }
+
+    makeHealthBar(){
+        let hpbar = this.add.graphics();
+        hpbar.x = config.width - 250;
+        hpbar.y = 20;
+        hpbar.fillStyle(0xFF0000, 1);
+        hpbar.fillRect(0,0,200,20);
+        return hpbar;
+    }
+
+    updateHealth(newHP){
+        this.hpBar.scaleX = newHP / 100;
+        this.healthAmount.setText("Health: " + this.health + " / 100");
     }
 
 }
