@@ -12,10 +12,6 @@ class Field extends Phaser.Scene {
         this.cursorKeys = this.input.keyboard.createCursorKeys();
 
         //set array of food items to spawn
-        this.foodItems = this.physics.add.sprite(config.width/3, config.height/3, "redBerry");
-        this.foodItems.setCollideWorldBounds(true);
-        this.stick = this.add.sprite(config.width/2, config.height/2, "stick");
-        this.stick.setScale(0.1, 0.1);
     }
 
     update() {
@@ -25,10 +21,11 @@ class Field extends Phaser.Scene {
     moveBird() {
         if(this.cursorKeys.left.isDown) {
             this.redbird.setVelocityX(-globalSettings.playerSpeed);
-            this.redbird.angle = 270;
+            this.redbird.flipX=true;
         }else if (this.cursorKeys.right.isDown) {
             this.redbird.setVelocityX(globalSettings.playerSpeed);
-            this.redbird.angle = 90;
+            this.redbird.angle = 0;
+            this.redbird.flipX=false;
         }else {
             this.redbird.setVelocityX(0);
         }
@@ -38,7 +35,6 @@ class Field extends Phaser.Scene {
             this.redbird.angle = 0;
         }else if (this.cursorKeys.down.isDown) {
             this.redbird.setVelocityY(globalSettings.playerSpeed);
-            this.redbird.angle = 180;
         }else {
             this.redbird.setVelocityY(0);
         }
