@@ -25,10 +25,11 @@ class Field extends Phaser.Scene {
     moveBird() {
         if(this.cursorKeys.left.isDown) {
             this.redbird.setVelocityX(-globalSettings.playerSpeed);
-            this.redbird.angle = 270;
+            this.redbird.flipX = true;
         }else if (this.cursorKeys.right.isDown) {
             this.redbird.setVelocityX(globalSettings.playerSpeed);
-            this.redbird.angle = 90;
+            this.redbird.angle = 0;
+            this.redbird.flipX = false;
         }else {
             this.redbird.setVelocityX(0);
         }
@@ -38,7 +39,6 @@ class Field extends Phaser.Scene {
             this.redbird.angle = 0;
         }else if (this.cursorKeys.down.isDown) {
             this.redbird.setVelocityY(globalSettings.playerSpeed);
-            this.redbird.angle = 180;
         }else {
             this.redbird.setVelocityY(0);
         }
