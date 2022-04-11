@@ -34,7 +34,7 @@ module.exports = (env) => {
     //     copyResolver("Copied", EGDD_FILE));
 
     // Update the index file for the dist directory
-    fs.copyFileSync(path.resolve(__dirname, 'src/index.html'),
+    fs.copyFileSync(path.resolve(__dirname, 'index.html'),
         path.resolve(__dirname, '..', 'dist', 'index.html'));
 
     // Update Manifest file
