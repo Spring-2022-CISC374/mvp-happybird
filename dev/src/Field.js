@@ -23,7 +23,20 @@ class Field extends Phaser.Scene {
             repeat: 9
         });
 
+        this.BirdSeed = this.add.group({
+            key: 'birdseed',
+            repeat: 9
+        });
+
+        this.AppleSeed = this.add.group({
+            key: 'appleseed',
+            repeat: 9
+        });
+
         this.spawnBlueberries();
+        this.spawnBirdSeed();
+        this.spawnAppleSeed();
+
         this.hpBar = this.makeHealthBar();
     }
 
@@ -63,16 +76,46 @@ class Field extends Phaser.Scene {
         });
     }
 
+    spawnBirdSeed(){
+
+        this.BirdSeed.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
+    }
+
+    spawnAppleSeed(){
+
+        this.AppleSeed.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
+    }
+
     interact(){
         var bird = this.redbird;
         var hp = this.health;
         if(this.spaceBar.isDown) {
             this.Blueberries.children.iterate(function (child){
-                if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.angle += 90;
-                    hp += 2;
+                    child.destroy();
+                    hp += 10;
                 }
+            });
+            this.BirdSeed.children.iterate(function (child){
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
+                    child.destroy();
+                    hp += 5;
+                }    
+            });
+            this.AppleSeed.children.iterate(function (child){
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
+                    child.destroy();
+                    hp -= 5;
+                }    
             });
         }
         this.health = hp;
@@ -89,8 +132,21 @@ class Field extends Phaser.Scene {
     }
 
     updateHealth(newHP){
-        this.hpBar.scaleX = newHP / 100;
-        this.healthAmount.setText("Health: " + this.health + " / 100");
+        if(newHP > 100){
+            this.hpBar.scaleX = 1;
+            this.health = 100;
+            this.healthAmount.setText("Health: " + 100 + " / 100"); 
+        }
+        else if(newHP < 1){
+            this.hpBar.scaleX = 1 / 100;
+            this.health = 1;
+            this.healthAmount.setText("Health: " + 1 + " / 100"); 
+        }
+        else{
+            this.hpBar.scaleX = newHP / 100;
+            this.healthAmount.setText("Health: " + this.health + " / 100");
+        }
+
     }
 
 }
