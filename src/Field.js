@@ -28,14 +28,14 @@ class Field extends Phaser.Scene {
             repeat: 9
         });
 
-        this.BirdSeed = this.add.group({
+        this.AppleSeed = this.add.group({
             key: 'appleseed',
             repeat: 9
         });
 
         this.spawnBlueberries();
         this.spawnBirdSeed();
-        //this.spawnAppleSeed();
+        this.spawnAppleSeed();
 
         this.hpBar = this.makeHealthBar();
     }
@@ -118,8 +118,15 @@ class Field extends Phaser.Scene {
     }
 
     updateHealth(newHP){
-        this.hpBar.scaleX = newHP / 100;
-        this.healthAmount.setText("Health: " + this.health + " / 100");
+        if(newHP > 100){
+            this.hpBar.scaleX = 1;
+            this.healthAmount.setText("Health: " + 100 + " / 100"); 
+        }
+        else{
+            this.hpBar.scaleX = newHP / 100;
+            this.healthAmount.setText("Health: " + this.health + " / 100");
+        }
+
     }
 
 }
