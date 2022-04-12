@@ -97,23 +97,23 @@ class Field extends Phaser.Scene {
         var hp = this.health;
         if(this.spaceBar.isDown) {
             this.Blueberries.children.iterate(function (child){
-                if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.angle += 90;
+                    child.destroy();
                     hp += 10;
                 }
             });
             this.BirdSeed.children.iterate(function (child){
-                if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.angle += 90;
+                    child.destroy();
                     hp += 5;
                 }    
             });
             this.AppleSeed.children.iterate(function (child){
-                if(child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.angle += 90;
+                    child.destroy();
                     hp -= 5;
                 }    
             });
