@@ -23,7 +23,20 @@ class Field extends Phaser.Scene {
             repeat: 9
         });
 
+        this.BirdSeed = this.add.group({
+            key: 'birdseed',
+            repeat: 9
+        });
+
+        this.BirdSeed = this.add.group({
+            key: 'appleseed',
+            repeat: 9
+        });
+
         this.spawnBlueberries();
+        this.spawnBirdSeed();
+        //this.spawnAppleSeed();
+
         this.hpBar = this.makeHealthBar();
     }
 
@@ -63,6 +76,22 @@ class Field extends Phaser.Scene {
         });
     }
 
+    spawnBirdSeed(){
+
+        this.BirdSeed.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
+    }
+
+    spawnAppleSeed(){
+
+        this.AppleSeed.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
+    }
+
     interact(){
         var bird = this.redbird;
         var hp = this.health;
@@ -89,13 +118,8 @@ class Field extends Phaser.Scene {
     }
 
     updateHealth(newHP){
-        if(newHP > 100){
-            this.hpBar.scaleX = 1;
-            this.healthAmount.setText("Health: " + 100 + " / 100");
-        }
-        else{
-            this.hpBar.scaleX = newHP / 100;
-            this.healthAmount.setText("Health: " + this.health + " / 100");
-        }
+        this.hpBar.scaleX = newHP / 100;
+        this.healthAmount.setText("Health: " + this.health + " / 100");
     }
+
 }
