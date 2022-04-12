@@ -89,8 +89,13 @@ class Field extends Phaser.Scene {
     }
 
     updateHealth(newHP){
-        this.hpBar.scaleX = newHP / 100;
-        this.healthAmount.setText("Health: " + this.health + " / 100");
+        if(newHP > 100){
+            this.hpBar.scaleX = 1;
+            this.healthAmount.setText("Health: " + 100 + " / 100");
+        }
+        else{
+            this.hpBar.scaleX = newHP / 100;
+            this.healthAmount.setText("Health: " + this.health + " / 100");
+        }
     }
-
 }
