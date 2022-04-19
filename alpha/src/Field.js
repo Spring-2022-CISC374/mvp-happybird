@@ -33,9 +33,18 @@ class Field extends Phaser.Scene {
             repeat: 9
         });
 
+        //set array of sticks to spawn
+
+        this.Stick2 = this.add.group({
+            key: "stick2",
+            repeat: 9
+        });
+
         this.spawnBlueberries();
         this.spawnBirdSeed();
         this.spawnAppleSeed();
+
+        this.spawnStick2();
 
         this.hpBar = this.makeHealthBar();
     }
@@ -92,6 +101,14 @@ class Field extends Phaser.Scene {
         });
     }
 
+    spawnStick2(){
+
+        this.Stick2.children.iterate(function (child){
+            child.setX(Math.random()*(config.width-32)+32);
+            child.setY(Math.random()*(config.height-32)+32);
+        });
+    }
+
     interact(){
         var bird = this.redbird;
         var hp = this.health;
@@ -116,6 +133,13 @@ class Field extends Phaser.Scene {
                     child.destroy();
                     hp -= 5;
                 }    
+            });
+            this.Stick2.children.iterate(function (child){
+                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
+                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
+                    child.destroy();
+                    //DO WHAT WE WANT WITH STICK (ADD TO INVENTORY)
+                }
             });
         }
         this.health = hp;
