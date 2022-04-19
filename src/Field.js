@@ -10,6 +10,8 @@ class Field extends Phaser.Scene {
         this.add.text(20, 40, "Press space to interact with objects.");
         this.health = 1;
         this.healthAmount = this.add.text(config.width-250, 5, "Health: " + this.health + " / 100");
+        this.inventory = 0;
+        this.inventoryAmount = this.add.text(config.width-250, config.height - 710, "Sticks: " + this.inventory);
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
         this.redbird.setScale(2, 2);
@@ -102,7 +104,6 @@ class Field extends Phaser.Scene {
     }
 
     spawnStick2(){
-
         this.Stick2.children.iterate(function (child){
             child.setX(Math.random()*(config.width-32)+32);
             child.setY(Math.random()*(config.height-32)+32);
@@ -112,6 +113,7 @@ class Field extends Phaser.Scene {
     interact(){
         var bird = this.redbird;
         var hp = this.health;
+        var inv = this.inventory;
         if(this.spaceBar.isDown) {
             this.Blueberries.children.iterate(function (child){
                 if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
@@ -138,12 +140,14 @@ class Field extends Phaser.Scene {
                 if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
                     child.destroy();
-                    //DO WHAT WE WANT WITH STICK (ADD TO INVENTORY)
+                    inv += 1;
                 }
             });
         }
         this.health = hp;
         this.updateHealth(hp);
+        this.inventory = inv;
+        this.updateInventory(inv);
     }
 
     makeHealthBar(){
@@ -171,6 +175,11 @@ class Field extends Phaser.Scene {
             this.healthAmount.setText("Health: " + this.health + " / 100");
         }
 
+    }
+
+    updateInventory(newInv){
+        this.inventory = newInv;
+        this.inventoryAmount.setText("Sticks: " + this.inventory);
     }
 
 }
