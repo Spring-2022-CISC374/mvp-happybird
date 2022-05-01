@@ -5,15 +5,16 @@ class Title extends Phaser.Scene {
 
     preload() {
         this.load.spritesheet("redbird", "assets/spritesheets/redbird.png", {
-            frameWidth: 20,
-            frameHeight: 18
+            frameWidth: 40,
+            frameHeight: 36
         });
 
        this.load.image("background", "assets/sky.png");
-       this.load.spritesheet("blueberry", "assets/spritesheets/blueberry.png", {frameWidth: 32, frameHeight: 32});
-       this.load.spritesheet("birdseed", "assets/spritesheets/birdseed.png", {frameWidth: 32, frameHeight: 32});
-       this.load.spritesheet("appleseed", "assets/spritesheets/appleseed.png", {frameWidth: 32, frameHeight: 32});
-       this.load.spritesheet("stick2", "assets/spritesheets/stick2.png", {frameWidth: 32, frameHeight: 32});
+       this.load.image("background2", "assets/grass.png");
+       this.load.spritesheet("blueberry", "assets/spritesheets/blueberry.png", {frameWidth: 64, frameHeight: 64});
+       this.load.spritesheet("birdseed", "assets/spritesheets/birdseed.png", {frameWidth: 64, frameHeight: 64});
+       this.load.spritesheet("appleseed", "assets/spritesheets/appleseed.png", {frameWidth: 64, frameHeight: 64});
+       this.load.spritesheet("stick2", "assets/spritesheets/stick2.png", {frameWidth: 64, frameHeight: 64});
     }
 
     create() {
@@ -22,7 +23,7 @@ class Title extends Phaser.Scene {
         this.background.displayWidth = this.sys.canvas.width;
         this.background.displayHeight = this.sys.canvas.height;
         this.background.setOrigin(0,0);
-        this.startButton = this.add.text(config.width / 2 - 80, 400, "Click to start");
+        this.startButton = this.add.text(config.width / 2 - 80, 400, "Click to start",{fill: '#000'});
         this.startButton.setInteractive();
         this.input.on('gameobjectdown', this.start, this);
     }
