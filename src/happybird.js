@@ -3,8 +3,8 @@ var globalSettings = {
 }
 
 var config = {
-	width: 750,
-	height: 750,
+	width: 1600,
+	height: 900,
 	backgroundColor: 0x39c647,
 	scene: [Title, Field],
 	physics: {
