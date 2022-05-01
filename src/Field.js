@@ -8,6 +8,12 @@ class Field extends Phaser.Scene {
     create() {
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
         this.add.text(20, 40, "Press space to interact with objects.");
+        this.blueberryscore = this.add.text(500,60, "+10");
+        this.blueberryscore.visible = false;
+        this.birdseedscore = this.add.text(500,60, "+5");
+        this.birdseedscore.visible = false;
+        this.appleseedscore = this.add.text(500,60, "-5");
+        this.appleseedscore.visible = false;
         this.health = 1;
         this.healthAmount = this.add.text(config.width-250, 5, "Health: " + this.health + " / 100");
         this.inventory = 0;
@@ -114,12 +120,18 @@ class Field extends Phaser.Scene {
         var bird = this.redbird;
         var hp = this.health;
         var inv = this.inventory;
+        var bluescore = this.blueberryscore;
+        var bseedscore = this.birdseedscore;
+        var aseedscore = this.appleseedscore;
         if(this.spaceBar.isDown) {
             this.Blueberries.children.iterate(function (child){
                 if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
                     child.destroy();
                     hp += 10;
+                    bluescore.visible = true;
+                    //this.time.events.add(3, this.bluescore.destroy, this.bluescore);
+                    
                 }
             });
             this.BirdSeed.children.iterate(function (child){
@@ -127,6 +139,7 @@ class Field extends Phaser.Scene {
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
                     child.destroy();
                     hp += 5;
+                    bseedscore.visible = true;
                 }    
             });
             this.AppleSeed.children.iterate(function (child){
@@ -134,6 +147,7 @@ class Field extends Phaser.Scene {
                     && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
                     child.destroy();
                     hp -= 5;
+                    aseedscore.visible = true;
                 }    
             });
             this.Stick2.children.iterate(function (child){
