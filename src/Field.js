@@ -6,6 +6,10 @@ class Field extends Phaser.Scene {
     }
 
     create() {
+        this.background = this.add.image(0,0,"background2");
+        this.background.displayWidth = this.sys.canvas.width;
+        this.background.displayHeight = this.sys.canvas.height;
+        this.background.setOrigin(0,0);
         this.add.text(20, 20, "Use the arrow keys to move the bird.");
         this.add.text(20, 40, "Press space to interact with objects.");
         this.blueberryscore = this.add.text(500,60, "+10");
