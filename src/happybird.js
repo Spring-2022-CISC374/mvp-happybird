@@ -1,5 +1,7 @@
 var globalSettings = {
-    playerSpeed: 200,
+	playerSpeed: 250,
+	worldWidth: 1920*2,
+    worldHeight: 1080*2,
 }
 
 var config = {
@@ -14,4 +16,4 @@ var config = {
 		}
 	}
 }
-var happyBirdGame = new Phaser.Game(config);
+var Game = new Phaser.Game(config);

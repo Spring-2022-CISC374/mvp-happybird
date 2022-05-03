@@ -5,74 +5,66 @@ class Field extends Phaser.Scene {
         super("playGame");
     }
 
+    
     create() {
+
+        this.cameras.main.setBounds(0, 0, globalSettings.worldWidth, globalSettings.worldHeight);
+        this.physics.world.setBounds(0, 0, globalSettings.worldWidth, globalSettings.worldHeight);
+
         this.background = this.add.image(0,0,"background2");
-        this.background.displayWidth = this.sys.canvas.width;
-        this.background.displayHeight = this.sys.canvas.height;
-        this.background.setOrigin(0,0);
-        this.add.text(20, 20, "Use the arrow keys to move the bird.");
+        this.background.displayWidth = globalSettings.worldWidth;
+        this.background.displayHeight = globalSettings.worldHeight;
+        this.background.setDisplayOrigin(0,0);
+        this.add.text(20, 20, "Use the arrow keys to move the bird.", {fill: 'white'});
         this.add.text(20, 40, "Press space to interact with objects.");
-        this.blueberryscore = this.add.text(500,60, "+10");
+        this.blueberryscore = this.add.text(config.width-250,65, "+10");
         this.blueberryscore.visible = false;
-        this.birdseedscore = this.add.text(500,60, "+5");
+        this.birdseedscore = this.add.text(config.width-250,65, "+5");
         this.birdseedscore.visible = false;
-        this.appleseedscore = this.add.text(500,60, "-5");
+        this.appleseedscore = this.add.text(config.width-250,65, "-5");
         this.appleseedscore.visible = false;
         this.health = 1;
         this.healthAmount = this.add.text(config.width-250, 5, "Health: " + this.health + " / 100");
+        this.healthAmount.fixedToCamera = true;
         this.inventory = 0;
         this.inventoryAmount = this.add.text(config.width-250, 50, "Sticks: " + this.inventory);
-        this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
-        this.redbird.setCollideWorldBounds(true);
-        this.redbird.setScale(2, 2);
-        this.speechBubble = this.add.text(this.redbird.x+20, this.redbird.y-20, "");
-
+        
+        this.nest = this.physics.add.sprite(Math.random()*(config.width-64)+64, Math.random()*(config.width-64)+64, "nest");
 
         this.cursorKeys = this.input.keyboard.createCursorKeys();
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        //set array of food items to spawn
-        this.Blueberries = this.physics.add.group({
-            key: 'blueberry',
-            repeat: 9
-        });
+        //set arrays of food items and sticks to spawn
+        this.Blueberries = this.physics.add.group({key: 'blueberry', repeat: 9});
+        this.BirdSeed = this.physics.add.group({key: 'birdseed', repeat: 9});
+        this.AppleSeed = this.physics.add.group({key: 'appleseed', repeat: 9});
+        this.Stick2 = this.physics.add.group({key: "stick2", repeat: 9});
 
-        this.BirdSeed = this.add.group({
-            key: 'birdseed',
-            repeat: 9
-        });
+        //set bird and speech bubble
+        this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
+        this.redbird.setCollideWorldBounds(true);
+        this.redbird.setScale(2, 2);
+        this.cameras.main.startFollow(this.redbird);
+        this.speechBubble = this.add.text(this.redbird.x+20, this.redbird.y-20, "");
 
-        this.AppleSeed = this.add.group({
-            key: 'appleseed',
-            repeat: 9
-        });
-
-        //set array of sticks to spawn
-
-        this.Stick2 = this.add.group({
-            key: "stick2",
-            repeat: 9
-        });
+        
 
         this.spawnBlueberries();
         this.spawnBirdSeed();
         this.spawnAppleSeed();
-
         this.spawnStick2();
 
         this.hpBar = this.makeHealthBar();
 
-        this.physics.add.collider(this.redbird, this.Blueberries, this.blueBerryCollision, null, this);
-        this.physics.add.collider(this.redbird, this.BirdSeed);
-        this.physics.add.collider(this.redbird, this.AppleSeed);
-        this.physics.add.collider(this.redbird, this.Stick2);
+        this.physics.add.overlap(this.redbird, this.Blueberries, this.blueBerryCollision, null, this);
+        this.physics.add.overlap(this.redbird, this.BirdSeed, this.BirdSeedCollision, null, this);
+        this.physics.add.overlap(this.redbird, this.AppleSeed, this.AppleSeedCollision, null, this);
+        this.physics.add.overlap(this.redbird, this.Stick2, this.StickCollision, null, this);
     }
     
 
     update() {
         this.moveBird();
-        this.interact();
-
     }
 
     moveBird() {
@@ -100,88 +92,32 @@ class Field extends Phaser.Scene {
     spawnBlueberries(){
 
         this.Blueberries.children.iterate(function (child){
-            child.setX(Math.random()*(config.width-32)+32);
-            child.setY(Math.random()*(config.height-32)+32);
+            child.setX(Math.random()*(globalSettings.worldWidth-64)+64);
+            child.setY(Math.random()*(globalSettings.worldHeight-64)+64);
         });
     }
 
     spawnBirdSeed(){
 
         this.BirdSeed.children.iterate(function (child){
-            child.setX(Math.random()*(config.width-32)+32);
-            child.setY(Math.random()*(config.height-32)+32);
+            child.setX(Math.random()*(globalSettings.worldWidth-64)+64);
+            child.setY(Math.random()*(globalSettings.worldHeight-64)+64);
         });
     }
 
     spawnAppleSeed(){
 
         this.AppleSeed.children.iterate(function (child){
-            child.setX(Math.random()*(config.width-32)+32);
-            child.setY(Math.random()*(config.height-32)+32);
+            child.setX(Math.random()*(globalSettings.worldWidth-64)+64);
+            child.setY(Math.random()*(globalSettings.worldHeight-64)+64);
         });
     }
 
     spawnStick2(){
         this.Stick2.children.iterate(function (child){
-            child.setX(Math.random()*(config.width-32)+32);
-            child.setY(Math.random()*(config.height-32)+32);
+            child.setX(Math.random()*(globalSettings.worldWidth-64)+64);
+            child.setY(Math.random()*(globalSettings.worldHeight-64)+64);
         });
-    }
-
-    interact(){
-        var bird = this.redbird;
-        var hp = this.health;
-        var inv = this.inventory;
-        var bluescore = this.blueberryscore;
-        var bseedscore = this.birdseedscore;
-        var aseedscore = this.appleseedscore;
-        if(this.spaceBar.isDown) {
-            /*this.Blueberries.children.iterate(function (child){
-                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
-                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.destroy();
-                    hp += 10;
-                    bluescore.visible = true;
-                    //this.time.events.add(3, this.bluescore.destroy, this.bluescore);
-                    
-                }
-            });*/
-            this.BirdSeed.children.iterate(function (child){
-                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
-                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.destroy();
-                    hp += 5;
-                    bseedscore.visible = true;
-                }    
-            });
-            this.AppleSeed.children.iterate(function (child){
-                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
-                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                    child.destroy();
-                    hp -= 5;
-                    aseedscore.visible = true;
-                }    
-            });
-            this.Stick2.children.iterate(function (child){
-                if(child != null && child.x > (bird.x - 20) && child.x < (bird.x + 20) 
-                    && child.y > (bird.y - 20) && child.y < (bird.y + 20)) {
-                        if(inv == 3){
-                            speech.setPosition(bird.x+20, bird.y-20);
-                            speech.setText("My inventory is full!");
-                            //time.delayedCall(300, speech.setText(""));
-                        }
-                        if(inv < 3){
-                            child.destroy();
-                            inv += 1;
-                        }
-
-                }
-            });
-        }
-        this.health = hp;
-        this.updateHealth(hp);
-        this.inventory = inv;
-        this.updateInventory(inv);
     }
 
     makeHealthBar(){
@@ -216,19 +152,42 @@ class Field extends Phaser.Scene {
         this.inventoryAmount.setText("Sticks: " + this.inventory);
     }
 
-    speak(text){
-        this.speechBubble.setPosition(this.redbird.x+20, this.redbird.y-20);
-        this.speechBubble.setText(text);
-        scene.time.delayedCall(300, this.speechBubble.setText(""));
-    }
-
     blueBerryCollision(bird, blueberry){
         if(this.spaceBar.isDown){
-        blueberry.destroy();
-        this.health += 10;
-        this.updateHealth(this.health);
+            blueberry.destroy();
+            this.health += 10;
+            this.updateHealth(this.health);
+            this.blueberryscore.visible = true;
         }
-    
-}
+    }
 
+    BirdSeedCollision(bird, seed){
+        if(this.spaceBar.isDown){
+            seed.destroy();
+            this.health += 5;
+            this.updateHealth(this.health);
+        }
+    }
+
+    AppleSeedCollision(bird, appleSeed){
+        if(this.spaceBar.isDown){
+            appleSeed.destroy();
+            this.health -= 5;
+            this.updateHealth(this.health);
+        }
+    }
+
+    StickCollision(bird, stick){
+        if(this.spaceBar.isDown){
+            if(this.inventory == 3){
+                this.speechBubble.setPosition(bird.x+20, bird.y-20);
+                this.speechBubble.setText("My inventory is full!");
+            }
+            if(this.inventory < 3){
+                stick.destroy();
+                this.inventory += 1;
+                this.updateInventory(this.inventory);
+            }
+        }
+    }
 }

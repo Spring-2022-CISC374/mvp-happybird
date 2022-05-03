@@ -15,6 +15,7 @@ class Title extends Phaser.Scene {
        this.load.spritesheet("birdseed", "assets/spritesheets/birdseed.png", {frameWidth: 64, frameHeight: 64});
        this.load.spritesheet("appleseed", "assets/spritesheets/appleseed.png", {frameWidth: 64, frameHeight: 64});
        this.load.spritesheet("stick2", "assets/spritesheets/stick2.png", {frameWidth: 64, frameHeight: 64});
+       this.load.spritesheet("nest", "assets/spritesheets/nest.png", {frameWidth: 54, frameHeight: 54});
     }
 
     create() {
