@@ -10,7 +10,7 @@ class Title extends Phaser.Scene {
         });
 
        this.load.image("background", "assets/sky.png");
-       this.load.image("background2", "assets/grass.png");
+       this.load.image("background2", "assets/map.png");
        this.load.spritesheet("blueberry", "assets/spritesheets/blueberry.png", {frameWidth: 64, frameHeight: 64});
        this.load.spritesheet("birdseed", "assets/spritesheets/birdseed.png", {frameWidth: 64, frameHeight: 64});
        this.load.spritesheet("appleseed", "assets/spritesheets/appleseed.png", {frameWidth: 64, frameHeight: 64});
