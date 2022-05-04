@@ -15,7 +15,7 @@ class Field extends Phaser.Scene {
         this.background.displayWidth = globalSettings.worldWidth;
         this.background.displayHeight = globalSettings.worldHeight;
         this.background.setDisplayOrigin(0,0);
-        this.tutorial = this.add.text(20, 20, "Instructions: \n Use the arrow keys to move the bird. \n Press space to interact with objects. \n Bring sticks to a nice nesting spot to build a nest! \n\nPress enter to close this text box. ", {fill: 'white', backgroundColor: 'black'});
+        this.tutorial = this.add.text(20, 20, "Instructions: \n Use the arrow keys to move the bird. \n Press space to interact with objects. \n Bring sticks to a nice nesting spot to build a nest! \n Try to get to full Health! \n\nPress enter to close this text box. ", {fill: 'white', backgroundColor: 'black'});
         this.health = 1;
         this.healthAmount = this.add.text(config.width-250, 5, "Health: " + this.health + " / 100", {fill: 'white', backgroundColor: 'black'});
         this.inventory = 0;
@@ -38,13 +38,17 @@ class Field extends Phaser.Scene {
         this.AppleSeed = this.physics.add.group({key: 'appleseed', repeat: 9});
         this.Stick2 = this.physics.add.group({key: "stick2", repeat: 9});
 
-        //set bird and speech bubble
+        //set bird spawn and camera following
         this.redbird = this.physics.add.sprite(config.width/2, config.height/2, "redbird");
         this.redbird.setCollideWorldBounds(true);
         this.redbird.setScale(2, 2);
         this.cameras.main.startFollow(this.redbird);
-        this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-40, "");
+
+        //speech bubble setup
+        this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-50, "");
         this.speechBubble.visible = false;
+        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "My Health is full!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
+        this.winSpeechBubble.visible = false;
 
         this.spawnBlueberries();
         this.spawnBirdSeed();
@@ -64,12 +68,16 @@ class Field extends Phaser.Scene {
         this.tutorial.setScrollFactor(0);
         this.healthAmount.setScrollFactor(0);
         this.inventoryAmount.setScrollFactor(0);
+
+        //win condition (temp)
+        this.won = false;
     }
     
 
     update() {
         this.closeTutorial();
         this.moveBird();
+        this.checkWin();
     }
 
     closeTutorial() {
@@ -98,12 +106,23 @@ class Field extends Phaser.Scene {
         }else {
             this.redbird.setVelocityY(0);
         }
-        this.moveSpeechBubble();
+        this.moveSpeechBubbles();
     }
 
-    moveSpeechBubble() {
+    moveSpeechBubbles() {
         this.speechBubble.x = this.redbird.x-10;
         this.speechBubble.y = this.redbird.y-50;
+        this.winSpeechBubble.x = this.redbird.x-175;
+        this.winSpeechBubble.y = this.redbird.y-80;
+    }
+
+    async checkWin() {
+        if(this.health == 100 && this.won == false) {
+            this.won = true;
+            this.winSpeechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 5000));
+            this.winSpeechBubble.visible = false;
+        }
     }
 
     spawnBlueberries(){
