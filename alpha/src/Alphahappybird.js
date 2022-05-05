@@ -1,12 +1,10 @@
 var globalSettings = {
-	playerSpeed: 250,
-	worldWidth: 1920*2,
-    worldHeight: 1080*2,
+    playerSpeed: 200,
 }
 
 var config = {
-	width: 1600,
-	height: 900,
+	width: 750,
+	height: 750,
 	backgroundColor: 0x39c647,
 	scene: [Title, Field],
 	physics: {
@@ -16,4 +14,4 @@ var config = {
 		}
 	}
 }
-var Game = new Phaser.Game(config);
+var happyBirdGame = new Phaser.Game(config);
