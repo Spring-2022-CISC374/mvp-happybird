@@ -47,7 +47,7 @@ class Field extends Phaser.Scene {
         //speech bubble setup
         this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-50, "");
         this.speechBubble.visible = false;
-        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "My Health is full!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
+        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "Congratulations! My Health is full and my nest is built!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
         this.winSpeechBubble.visible = false;
 
         this.spawnBlueberries();
@@ -70,13 +70,15 @@ class Field extends Phaser.Scene {
         this.inventoryAmount.setScrollFactor(0);
 
         //win condition (temp)
+        this.nestBuilt = false;
         this.won = false;
     }
     
 
     update() {
         this.closeTutorial();
-        this.moveBird();
+        if(!this.won)
+            this.moveBird();
         this.checkWin();
     }
 
@@ -117,7 +119,7 @@ class Field extends Phaser.Scene {
     }
 
     async checkWin() {
-        if(this.health == 100 && this.won == false) {
+        if(this.health >= 100 && this.won == false && this.nestBuilt) {
             this.won = true;
             this.winSpeechBubble.visible = true;
             await new Promise(r => setTimeout(r, 5000));
@@ -248,6 +250,8 @@ class Field extends Phaser.Scene {
     }
 
     async NestCollision(bird, nest) {
+        if(this.nestPieces == 4)
+            this.nestBuilt = true;
         if(this.spaceBar.isDown && this.inventory > 0){
             this.nest.visible = true;
             if (this.nestPieces < 4) {
