@@ -3,7 +3,7 @@ var globalSettings = {
 	worldWidth: 1920*2,
     worldHeight: 1080*2,
 }
-
+//This is a test
 var config = {
 	width: 1600,
 	height: 900,
