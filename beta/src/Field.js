@@ -47,7 +47,7 @@ class Field extends Phaser.Scene {
         //speech bubble setup
         this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-50, "");
         this.speechBubble.visible = false;
-        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "Congratulations! My Health is full and my nest is built!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
+        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-120, "Congratulations! My Health is full \n     and my nest is built! \n   Press enter to play again", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
         this.winSpeechBubble.visible = false;
 
         this.spawnBlueberries();
@@ -115,16 +115,19 @@ class Field extends Phaser.Scene {
         this.speechBubble.x = this.redbird.x-10;
         this.speechBubble.y = this.redbird.y-50;
         this.winSpeechBubble.x = this.redbird.x-175;
-        this.winSpeechBubble.y = this.redbird.y-80;
+        this.winSpeechBubble.y = this.redbird.y-120;
     }
 
     async checkWin() {
         if(this.health >= 100 && this.won == false && this.nestBuilt) {
             this.won = true;
             this.winSpeechBubble.visible = true;
-            await new Promise(r => setTimeout(r, 5000));
-            this.winSpeechBubble.visible = false;
+            this.redbird.setVelocity(0);
+            //await new Promise(r => setTimeout(r, 5000));
+            //this.winSpeechBubble.visible = false;
         }
+        if(this.won && this.enter.isDown)
+            this.scene.start("playGame");
     }
 
     spawnBlueberries(){
