@@ -17,6 +17,12 @@ class Title extends Phaser.Scene {
        this.load.spritesheet("stick2", "assets/spritesheets/stick2.png", {frameWidth: 64, frameHeight: 64});
        this.load.spritesheet("nest", "assets/spritesheets/nest.png", {frameWidth: 62, frameHeight: 54});
        this.load.spritesheet("nestarea", "assets/spritesheets/nestarea.png", {frameWidth: 68, frameHeight: 64})
+       this.load.audio("collectStick", "assets/sounds/collectStick.wav");
+       this.load.audio("appleSeedSound", "assets/sounds/appleSeed.wav");
+       this.load.audio("win", "assets/sounds/win.wav");
+       this.load.audio("blueberrySound", "assets/sounds/blueberry.wav");
+       this.load.audio("gameMusic", "assets/sounds/gameMusic.wav");
+       this.load.audio("birdseedSound", "assets/sounds/birdseed.wav");
     }
 
     create() {

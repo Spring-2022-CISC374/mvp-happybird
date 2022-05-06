@@ -50,6 +50,14 @@ class Field extends Phaser.Scene {
         this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "Congratulations! My Health is full and my nest is built!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
         this.winSpeechBubble.visible = false;
 
+        //set up audio
+        this.music = this.sound.add("gameMusic", {loop: true});
+        this.collectStick = this.sound.add("collectStick", {loop: false});
+        this.collectBS = this.sound.add("birdseedSound", {loop: false});
+        this.collectBB = this.sound.add("blueberrySound", {loop: false});
+        this.appleHit = this.sound.add("appleSeedSound", {loop: false});
+        this.winSong = this.sound.add("win", {loop: false});
+
         this.spawnBlueberries();
         this.spawnBirdSeed();
         this.spawnAppleSeed();
@@ -72,6 +80,9 @@ class Field extends Phaser.Scene {
         //win condition (temp)
         this.nestBuilt = false;
         this.won = false;
+
+        //play music
+        this.music.play();
     }
     
 
@@ -120,6 +131,7 @@ class Field extends Phaser.Scene {
 
     async checkWin() {
         if(this.health >= 100 && this.won == false && this.nestBuilt) {
+            this.winSong.play();
             this.won = true;
             this.winSpeechBubble.visible = true;
             await new Promise(r => setTimeout(r, 5000));
@@ -195,6 +207,7 @@ class Field extends Phaser.Scene {
     for the sleep solution for the following functions */
     async blueBerryCollision(bird, blueberry){
         if(this.spaceBar.isDown){
+            this.collectBB.play();
             blueberry.destroy();
             this.health += 10;
             this.updateHealth(this.health);
@@ -208,6 +221,7 @@ class Field extends Phaser.Scene {
 
     async BirdSeedCollision(bird, seed){
         if(this.spaceBar.isDown){
+            this.collectBS.play();
             seed.destroy();
             this.health += 5;
             this.updateHealth(this.health);
@@ -221,6 +235,7 @@ class Field extends Phaser.Scene {
 
     async AppleSeedCollision(bird, appleSeed){
         if(this.spaceBar.isDown){
+            this.appleHit.play();
             appleSeed.destroy();
             this.health -= 5;
             this.updateHealth(this.health);
@@ -242,6 +257,7 @@ class Field extends Phaser.Scene {
                 this.speechBubble.visible = false;
             }
             if(this.inventory < 3){
+                this.collectStick.play();
                 stick.destroy();
                 this.inventory += 1;
                 this.updateInventory(this.inventory);
