@@ -51,7 +51,7 @@ class Field extends Phaser.Scene {
         this.winSpeechBubble.visible = false;
 
         //set up audio
-        this.music = this.sound.add("gameMusic", {loop: true});
+        this.music = this.sound.add("natureSounds", {loop: true});
         this.collectStick = this.sound.add("collectStick", {loop: false});
         this.collectBS = this.sound.add("birdseedSound", {loop: false});
         this.collectBB = this.sound.add("blueberrySound", {loop: false});
@@ -96,6 +96,7 @@ class Field extends Phaser.Scene {
     closeTutorial() {
         if (this.enter.isDown) {
             this.tutorial.visible = false;
+            this.menuClose.play();
         }
     }
 

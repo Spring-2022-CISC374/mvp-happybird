@@ -21,8 +21,9 @@ class Title extends Phaser.Scene {
        this.load.audio("appleSeedSound", "assets/sounds/appleSeed.wav");
        this.load.audio("win", "assets/sounds/win.wav");
        this.load.audio("blueberrySound", "assets/sounds/blueberry.wav");
-       this.load.audio("gameMusic", "assets/sounds/gameMusic.wav");
+       this.load.audio("natureSounds", "assets/sounds/nature.wav");
        this.load.audio("birdseedSound", "assets/sounds/birdseed.wav");
+       this.load.audio("menuClose", "assets/sounds/menuClose.wav");
     }
 
     create() {
