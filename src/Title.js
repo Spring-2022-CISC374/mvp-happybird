@@ -8,7 +8,6 @@ class Title extends Phaser.Scene {
             frameWidth: 40,
             frameHeight: 36
         });
-
        this.load.image("background", "assets/sky.png");
        this.load.image("background2", "assets/map.png");
        this.load.spritesheet("blueberry", "assets/spritesheets/blueberry.png", {frameWidth: 64, frameHeight: 64});
@@ -24,7 +23,7 @@ class Title extends Phaser.Scene {
        this.load.audio("natureSounds", "assets/sounds/nature.wav");
        this.load.audio("birdseedSound", "assets/sounds/birdseed.wav");
        this.load.audio("menuClose", "assets/sounds/menuClose.wav");
-    }
+       }
 
     create() {
         this.add.text(config.width / 2 - 100, 100, "Happy Bird", { fontSize: "32px"});

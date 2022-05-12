@@ -96,7 +96,6 @@ class Field extends Phaser.Scene {
     closeTutorial() {
         if (this.enter.isDown) {
             this.tutorial.visible = false;
-            this.menuClose.play();
         }
     }
 
