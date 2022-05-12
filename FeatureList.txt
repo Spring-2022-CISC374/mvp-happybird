@@ -16,6 +16,7 @@ Things that we need to add (and my thoughts of how to implement them):
 - - At the end of the game, instead of just resetting everything by playing again, takes you to bird selection screen
 
 - As Needed: Other
-- - (For me) Make a second sprite of the bird walking, to make the bird feel more alive
-- - (For me) Make a sprite of the predator, and a sprite of the bird in its nest for the day end screen
+- - Add the animation for the bird
 - - Set up in the collision function for the objects that when you're hovered over it, a text box appears over it saying what it is
+- - Make the text for winning centered on the screen
+- - Lower the amount of spawned items so it takes a couple days to win

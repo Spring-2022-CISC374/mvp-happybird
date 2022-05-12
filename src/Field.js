@@ -83,6 +83,14 @@ class Field extends Phaser.Scene {
 
         //play music
         this.music.play();
+
+        //start day/night cycle, and timer
+        this.timeLeft = 60;
+        this.dayClock = this.add.text(config.width-250, 70, "Time until night: " + this.timeLeft.toString(), {fill: 'white', backgroundColor: 'black'});
+        this.dayClock.setScrollFactor(0);
+        this.nightTime = false;
+        this.DayTimer();
+        this.DayTimerDisplay();
     }
     
 
@@ -275,14 +283,40 @@ class Field extends Phaser.Scene {
                 this.nestPieces += 1;
             }
             else {
-                this.speechBubble.setText("My nest is already complete!");
-                this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
-                this.speechBubble.visible = true;
-                await new Promise(r => setTimeout(r, 2000));
-                this.speechBubble.visible = false;
+                if (this.nightTime) {
+                    this.SleepUntilDay();
+                }
+                else {
+                    this.speechBubble.setText("My nest is already complete!");
+                    this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+                    this.speechBubble.visible = true;
+                    await new Promise(r => setTimeout(r, 2000));
+                    this.speechBubble.visible = false;
+                }
             }
             this.nest.setFrame(this.nestPieces-1);
             this.updateInventory(this.inventory);
         }
+    }
+
+    // Use this to do things when night hits
+    async DayTimer() {
+       //1 minute timer
+        await new Promise(r => setTimeout(r, 60000));
+        this.nightTime = true;
+    }
+
+    // This is just the visuals
+    async DayTimerDisplay() {
+        for(let i = 0; i < 60; i++) {
+            await new Promise(r => setTimeout(r, 1000));
+            this.timeLeft -= 1;
+            this.dayClock.setText("Time until night: " + this.timeLeft.toString());
+        }
+        this.dayClock.setText("Look, night is: " + this.nightTime.toString());
+    }
+
+    SleepUntilDay() {
+        this.scene.start("sleep");
     }
 }
