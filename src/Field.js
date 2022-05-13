@@ -225,6 +225,13 @@ class Field extends Phaser.Scene {
             await new Promise(r => setTimeout(r, 2000));
             this.speechBubble.visible = false;
         }
+        else{
+            this.speechBubble.setText("Blueberry");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
+            this.speechBubble.visible = false;
+        }
     }
 
     async BirdSeedCollision(bird, seed){
@@ -239,6 +246,13 @@ class Field extends Phaser.Scene {
             await new Promise(r => setTimeout(r, 2000));
             this.speechBubble.visible = false;
         }
+        else{
+            this.speechBubble.setText("Birdseed");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
+            this.speechBubble.visible = false;
+        }
     }
 
     async AppleSeedCollision(bird, appleSeed){
@@ -251,6 +265,13 @@ class Field extends Phaser.Scene {
             this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'red'});
             this.speechBubble.visible = true;
             await new Promise(r => setTimeout(r, 2000));
+            this.speechBubble.visible = false;
+        }
+        else{
+            this.speechBubble.setText("Apple Seeds");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
             this.speechBubble.visible = false;
         }
     }
