@@ -1,13 +1,15 @@
 Things that we need to add (and my thoughts of how to implement them):
+
 - Priority 1: Day / Night Cycle
-- - Set a asynchronous function that sets a timer (also on screen) that ticks down, and when it hits zero it turns to night.
-- - When the night is over, a new screen pops up and tells you if you were okay or not during the night
-- - Regenerate the original scene to spawn new pickups and change the level, resetting the timer and carrying over the health.
 - - Less food spawns each day so you cannot just win it immediately in one day
+- - Overlay it so it turns dark
+- - Pass health to new day
+
 - Priority 1: Predator
 - - When night hits, the game spawns in a predator somewhere random on the map (on the edges only, and far enough away from the bird)
-- - Constantly moves towards the bird (slower than your movement speed) and if they touch, you lose health during the night
+- - Constantly moves towards the bird (slower than your movement speed) and if they touch, you lose health during the night, and also has separate end day screen
 - - To escape it, you have to have a built nest, and press space on it during night to rest, or hurry to finish building it before caught.
+
 - Priority 2: Multiple Birds
 - - I make more sprites (a given)
 - - The bird is selected at the start after clicking to start, and the bird chosen sets a variable for which bird is spawned and played as
@@ -15,8 +17,8 @@ Things that we need to add (and my thoughts of how to implement them):
 - - If (redbird) on blueberry, then +10hp, and if(blackbird) on blueberry, then something else
 - - At the end of the game, instead of just resetting everything by playing again, takes you to bird selection screen
 
+
 - As Needed: Other
 - - Add the animation for the bird
 - - Set up in the collision function for the objects that when you're hovered over it, a text box appears over it saying what it is
 - - Make the text for winning centered on the screen
-- - Lower the amount of spawned items so it takes a couple days to win

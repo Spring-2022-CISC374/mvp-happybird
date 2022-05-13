@@ -276,17 +276,17 @@ class Field extends Phaser.Scene {
     async NestCollision(bird, nest) {
         if(this.nestPieces == 4)
             this.nestBuilt = true;
-        if(this.spaceBar.isDown && this.inventory > 0){
-            this.nest.visible = true;
-            if (this.nestPieces < 4) {
+        if(this.spaceBar.isDown){
+            if (this.nestBuilt == false && this.inventory > 0) {
+                this.nest.visible = true;
                 this.inventory -= 1;
                 this.nestPieces += 1;
             }
             else {
-                if (this.nightTime) {
+                if (this.nestBuilt && this.nightTime) {
                     this.SleepUntilDay();
                 }
-                else {
+                else if (this.nestBuilt && this.inventory > 0) {
                     this.speechBubble.setText("My nest is already complete!");
                     this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
                     this.speechBubble.visible = true;
