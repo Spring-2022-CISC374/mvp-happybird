@@ -20,5 +20,5 @@ Things that we need to add (and my thoughts of how to implement them):
 
 - As Needed: Other
 - - Add the animation for the bird
-- - Set up in the collision function for the objects that when you're hovered over it, a text box appears over it saying what it is
-- - Make the text for winning centered on the screen
+- - Maybe make the win text a whole screen
+- - Update tutorial

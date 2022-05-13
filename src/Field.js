@@ -47,7 +47,7 @@ class Field extends Phaser.Scene {
         //speech bubble setup
         this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-50, "");
         this.speechBubble.visible = false;
-        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-80, "Congratulations! My Health is full and my nest is built!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
+        this.winSpeechBubble = this.add.text(config.width/2 - 350, config.height/2 - 100, "Congratulations! I am healthy again!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
         this.winSpeechBubble.visible = false;
 
         //set up audio
@@ -76,6 +76,7 @@ class Field extends Phaser.Scene {
         this.tutorial.setScrollFactor(0);
         this.healthAmount.setScrollFactor(0);
         this.inventoryAmount.setScrollFactor(0);
+        this.winSpeechBubble.setScrollFactor(0);
 
         //win condition (temp)
         this.nestBuilt = false;
@@ -91,6 +92,8 @@ class Field extends Phaser.Scene {
         this.nightTime = false;
         this.DayTimer();
         this.DayTimerDisplay();
+
+        //bird animation
     }
     
 
@@ -127,23 +130,21 @@ class Field extends Phaser.Scene {
         }else {
             this.redbird.setVelocityY(0);
         }
-        this.moveSpeechBubbles();
+        this.moveSpeechBubble();
     }
 
-    moveSpeechBubbles() {
+    moveSpeechBubble() {
         this.speechBubble.x = this.redbird.x-10;
         this.speechBubble.y = this.redbird.y-50;
-        this.winSpeechBubble.x = this.redbird.x-175;
-        this.winSpeechBubble.y = this.redbird.y-80;
     }
 
-    async checkWin() {
-        if(this.health >= 100 && this.won == false && this.nestBuilt) {
+    checkWin() {
+        if(this.health >= 10 && this.won == false) {
+            this.winSpeechBubble.visible = true;
+            this.redbird.setVelocityX(0);
+            this.redbird.setVelocityY(0);
             this.winSong.play();
             this.won = true;
-            this.winSpeechBubble.visible = true;
-            await new Promise(r => setTimeout(r, 5000));
-            this.winSpeechBubble.visible = false;
         }
     }
 
@@ -334,7 +335,7 @@ class Field extends Phaser.Scene {
             this.timeLeft -= 1;
             this.dayClock.setText("Time until night: " + this.timeLeft.toString());
         }
-        this.dayClock.setText("Look, night is: " + this.nightTime.toString());
+        this.dayClock.setText("Night Time.");
     }
 
     SleepUntilDay() {
