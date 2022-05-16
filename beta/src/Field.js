@@ -47,8 +47,16 @@ class Field extends Phaser.Scene {
         //speech bubble setup
         this.speechBubble = this.add.text(this.redbird.x-10, this.redbird.y-50, "");
         this.speechBubble.visible = false;
-        this.winSpeechBubble = this.add.text(this.redbird.x-175, this.redbird.y-120, "Congratulations! My Health is full \n     and my nest is built! \n   Press enter to play again", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
+        this.winSpeechBubble = this.add.text(config.width/2 - 350, config.height/2 - 100, "Congratulations! I am healthy again!", {fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: '#66ff00', fontSize: '32px'});
         this.winSpeechBubble.visible = false;
+
+        //set up audio
+        this.music = this.sound.add("natureSounds", {loop: true});
+        this.collectStick = this.sound.add("collectStick", {loop: false});
+        this.collectBS = this.sound.add("birdseedSound", {loop: false});
+        this.collectBB = this.sound.add("blueberrySound", {loop: false});
+        this.appleHit = this.sound.add("appleSeedSound", {loop: false});
+        this.winSong = this.sound.add("win", {loop: false});
 
         this.spawnBlueberries();
         this.spawnBirdSeed();
@@ -68,10 +76,24 @@ class Field extends Phaser.Scene {
         this.tutorial.setScrollFactor(0);
         this.healthAmount.setScrollFactor(0);
         this.inventoryAmount.setScrollFactor(0);
+        this.winSpeechBubble.setScrollFactor(0);
 
         //win condition (temp)
         this.nestBuilt = false;
         this.won = false;
+
+        //play music
+        this.music.play();
+
+        //start day/night cycle, and timer
+        this.timeLeft = 60;
+        this.dayClock = this.add.text(config.width-250, 70, "Time until night: " + this.timeLeft.toString(), {fill: 'white', backgroundColor: 'black'});
+        this.dayClock.setScrollFactor(0);
+        this.nightTime = false;
+        this.DayTimer();
+        this.DayTimerDisplay();
+
+        //bird animation
     }
     
 
@@ -108,26 +130,22 @@ class Field extends Phaser.Scene {
         }else {
             this.redbird.setVelocityY(0);
         }
-        this.moveSpeechBubbles();
+        this.moveSpeechBubble();
     }
 
-    moveSpeechBubbles() {
+    moveSpeechBubble() {
         this.speechBubble.x = this.redbird.x-10;
         this.speechBubble.y = this.redbird.y-50;
-        this.winSpeechBubble.x = this.redbird.x-175;
-        this.winSpeechBubble.y = this.redbird.y-120;
     }
 
-    async checkWin() {
-        if(this.health >= 100 && this.won == false && this.nestBuilt) {
-            this.won = true;
+    checkWin() {
+        if(this.health >= 10 && this.won == false) {
             this.winSpeechBubble.visible = true;
-            this.redbird.setVelocity(0);
-            //await new Promise(r => setTimeout(r, 5000));
-            //this.winSpeechBubble.visible = false;
+            this.redbird.setVelocityX(0);
+            this.redbird.setVelocityY(0);
+            this.winSong.play();
+            this.won = true;
         }
-        if(this.won && this.enter.isDown)
-            this.scene.start("playGame");
     }
 
     spawnBlueberries(){
@@ -198,6 +216,7 @@ class Field extends Phaser.Scene {
     for the sleep solution for the following functions */
     async blueBerryCollision(bird, blueberry){
         if(this.spaceBar.isDown){
+            this.collectBB.play();
             blueberry.destroy();
             this.health += 10;
             this.updateHealth(this.health);
@@ -207,10 +226,18 @@ class Field extends Phaser.Scene {
             await new Promise(r => setTimeout(r, 2000));
             this.speechBubble.visible = false;
         }
+        else{
+            this.speechBubble.setText("Blueberry");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
+            this.speechBubble.visible = false;
+        }
     }
 
     async BirdSeedCollision(bird, seed){
         if(this.spaceBar.isDown){
+            this.collectBS.play();
             seed.destroy();
             this.health += 5;
             this.updateHealth(this.health);
@@ -220,10 +247,18 @@ class Field extends Phaser.Scene {
             await new Promise(r => setTimeout(r, 2000));
             this.speechBubble.visible = false;
         }
+        else{
+            this.speechBubble.setText("Birdseed");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
+            this.speechBubble.visible = false;
+        }
     }
 
     async AppleSeedCollision(bird, appleSeed){
         if(this.spaceBar.isDown){
+            this.appleHit.play();
             appleSeed.destroy();
             this.health -= 5;
             this.updateHealth(this.health);
@@ -231,6 +266,13 @@ class Field extends Phaser.Scene {
             this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'red'});
             this.speechBubble.visible = true;
             await new Promise(r => setTimeout(r, 2000));
+            this.speechBubble.visible = false;
+        }
+        else{
+            this.speechBubble.setText("Apple Seeds");
+            this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+            this.speechBubble.visible = true;
+            await new Promise(r => setTimeout(r, 1));
             this.speechBubble.visible = false;
         }
     }
@@ -245,6 +287,7 @@ class Field extends Phaser.Scene {
                 this.speechBubble.visible = false;
             }
             if(this.inventory < 3){
+                this.collectStick.play();
                 stick.destroy();
                 this.inventory += 1;
                 this.updateInventory(this.inventory);
@@ -255,21 +298,47 @@ class Field extends Phaser.Scene {
     async NestCollision(bird, nest) {
         if(this.nestPieces == 4)
             this.nestBuilt = true;
-        if(this.spaceBar.isDown && this.inventory > 0){
-            this.nest.visible = true;
-            if (this.nestPieces < 4) {
+        if(this.spaceBar.isDown){
+            if (this.nestBuilt == false && this.inventory > 0) {
+                this.nest.visible = true;
                 this.inventory -= 1;
                 this.nestPieces += 1;
             }
             else {
-                this.speechBubble.setText("My nest is already complete!");
-                this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
-                this.speechBubble.visible = true;
-                await new Promise(r => setTimeout(r, 2000));
-                this.speechBubble.visible = false;
+                if (this.nestBuilt && this.nightTime) {
+                    this.SleepUntilDay();
+                }
+                else if (this.nestBuilt && this.inventory > 0) {
+                    this.speechBubble.setText("My nest is already complete!");
+                    this.speechBubble.setStyle({fill: 'black', fontStyle: 'bold', strokeThickness: 3, stroke: 'white'});
+                    this.speechBubble.visible = true;
+                    await new Promise(r => setTimeout(r, 2000));
+                    this.speechBubble.visible = false;
+                }
             }
             this.nest.setFrame(this.nestPieces-1);
             this.updateInventory(this.inventory);
         }
+    }
+
+    // Use this to do things when night hits
+    async DayTimer() {
+       //1 minute timer
+        await new Promise(r => setTimeout(r, 60000));
+        this.nightTime = true;
+    }
+
+    // This is just the visuals
+    async DayTimerDisplay() {
+        for(let i = 0; i < 60; i++) {
+            await new Promise(r => setTimeout(r, 1000));
+            this.timeLeft -= 1;
+            this.dayClock.setText("Time until night: " + this.timeLeft.toString());
+        }
+        this.dayClock.setText("Night Time.");
+    }
+
+    SleepUntilDay() {
+        this.scene.start("sleep");
     }
 }

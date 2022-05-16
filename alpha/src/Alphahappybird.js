@@ -6,7 +6,7 @@ var config = {
 	width: 750,
 	height: 750,
 	backgroundColor: 0x39c647,
-	scene: [Title, Field],
+	scene: [AlphaTitle, AlphaField],
 	physics: {
 		default: "arcade",
 		arcade:{
