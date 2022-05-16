@@ -139,7 +139,7 @@ class Field extends Phaser.Scene {
     }
 
     checkWin() {
-        if(this.health >= 10 && this.won == false) {
+        if(this.health >= 100 && this.won == false) {
             this.winSpeechBubble.visible = true;
             this.redbird.setVelocityX(0);
             this.redbird.setVelocityY(0);
