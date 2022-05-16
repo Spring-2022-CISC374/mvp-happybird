@@ -8,7 +8,7 @@ var config = {
 	width: 1600,
 	height: 900,
 	backgroundColor: 0x39c647,
-	scene: [Title, Field, Sleep],
+	scene: [Title, Field],
 	physics: {
 		default: "arcade",
 		arcade:{
